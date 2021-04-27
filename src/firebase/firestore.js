@@ -2,7 +2,8 @@ import { db } from './';
 
 export const FIRESTORE = {
     addIdea: async (idea) => {
-        return await db.collection('ideas').add(idea);
+        let {id} = await db.collection('ideas').add(idea);
+        await db.collection('ideas').doc(id).update({id})
     },
     getIdeas: async () => {
         try{

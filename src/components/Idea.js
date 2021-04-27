@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import {
-    Card,Collapse,Grid, Typography
+    Card,Collapse,Grid, Typography, IconButton
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -8,6 +8,7 @@ import {
     ChevronDown,
     Sun
 } from "react-feather";
+import { useAuth } from '../firebase/provider'
 const useStyles = makeStyles((theme) => ({
     card:{
         padding:'1%',
@@ -44,6 +45,11 @@ const useStyles = makeStyles((theme) => ({
 const Idea = () => {
     const classes = useStyles();
     const [collapsed, setCollapsed] = useState(false);
+    const [voted,setVoted] = useState(false);
+    const { currentUser } = useAuth();
+    const handleVote = ()=>{
+        setVoted(!voted);
+    }
     return (
         <Card className={classes.card}>
             <Grid container direction="row" >
@@ -76,8 +82,8 @@ const Idea = () => {
                         10
                     </Typography>
                     </Grid>
-                    <Grid item style={{color:"#FDB827"}}>
-                        <Sun  />
+                    <Grid item>
+                       <IconButton  style={{color:voted?"#FDB827":currentUser?"#696969":"rgba(0,0,0,0.2)"}} onClick={handleVote} disableRipple={true} disableFocusRipple={true} disabled={currentUser?false:true}> <Sun  /> </IconButton>
                     </Grid>
                 </Grid>
             </Grid>

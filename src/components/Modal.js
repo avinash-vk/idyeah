@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Avatar, Typography, TextField, Dialog,DialogTitle, DialogActions, Button,Card,Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { FIRESTORE } from '../firebase/firestore';
 import { useAuth } from "../firebase/provider";
 
 const modalStyles = makeStyles((theme)=>({
@@ -82,7 +82,13 @@ const SubmitIdeaModal = ({open,handleClose}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        await FIRESTORE.addIdea({
+            title,
+            description,
+            author: currentUser ? currentUser.displayName: "Anonymous",
+            authorId: currentUser ? currentUser.uid : ""
+        });
+        handleClose();
     }
 
     return (

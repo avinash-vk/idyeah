@@ -66,8 +66,11 @@ const useStyles = makeStyles((theme) => ({
   
   const Navbar = () => {
     const classes = useStyles();
-    const { currentUser } = useAuth();
-    const [open, setOpen] = useState(true);
+    const { currentUser, logout, googleSignin } = useAuth();
+    const [open, setOpen] = useState(false);
+    const handleSumbitIdea = () => {
+      setOpen(true);
+    }
     return (
       <div className={classes.root}>
         <AppBar elevation={0} style={{
@@ -80,8 +83,11 @@ const useStyles = makeStyles((theme) => ({
             </Typography>
 
             <List className={classes.list}>
-                <Button disableFocusRipple={true} disableRipple={true} className={classes.whiteButton}>Submit an idea</Button>
-                <Button disableFocusRipple={true} disableRipple={true} className={classes.button}>Login</Button>
+                <Button onClick = {handleSumbitIdea} disableFocusRipple={true} disableRipple={true} className={classes.whiteButton}>Submit an idea</Button>
+                {
+                    currentUser? <Button onClick={logout} disableFocusRipple={true} disableRipple={true} className={classes.button}>Logout</Button>
+                    :<Button onClick={googleSignin} disableFocusRipple={true} disableRipple={true} className={classes.button}>Login</Button>
+                }
             </List>
           </Toolbar>
         </AppBar>
