@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
     ChevronUp,
     ChevronDown,
+    Sun
 } from "react-feather";
 const useStyles = makeStyles((theme) => ({
     card:{
@@ -69,8 +70,15 @@ const Idea = () => {
                         Robots
                     </Typography>
                 </Grid>
-                <Grid item xs={3}>
-
+                <Grid container item xs={3} justify="flex-end" alignItems="center" spacing={2}>
+                    <Grid item>
+                    <Typography className={classes.title}>
+                        10
+                    </Typography>
+                    </Grid>
+                    <Grid item style={{color:"#FDB827"}}>
+                        <Sun  />
+                    </Grid>
                 </Grid>
             </Grid>
             <Collapse in={collapsed}>

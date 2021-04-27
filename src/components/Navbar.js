@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useAuth } from '../firebase/provider';
+import SubmitIdeaModal from './Modal';
 import {
   AppBar,
   List,
@@ -66,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
   const Navbar = () => {
     const classes = useStyles();
     const { currentUser } = useAuth();
+    const [open, setOpen] = useState(true);
     return (
       <div className={classes.root}>
         <AppBar elevation={0} style={{
@@ -84,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
           </Toolbar>
         </AppBar>
         <div style={{marginTop:100}}/>
+        <SubmitIdeaModal open={open} handleClose={()=>setOpen(false)} />
       </div>
     );
   }
