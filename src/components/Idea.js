@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
     ChevronUp,
     ChevronDown,
-    Sun
+    Sun,
+    Send
 } from "react-feather";
 import { FIRESTORE} from '../firebase/firestore';
 import { useAuth } from '../firebase/provider'
@@ -46,13 +47,17 @@ const useStyles = makeStyles((theme) => ({
 const Idea = ({idea}) => {
     const classes = useStyles();
     const [collapsed, setCollapsed] = useState(false);
-    const { currentUser } = useAuth();
+    const { currentUser,setStatusAlert } = useAuth();
     const [voted,setVoted] = useState(idea?.votes?.[currentUser.uid]);
     const [votes, setVotes] = React.useState(idea?.voteCount);
     const handleVote = async ()=>{
         setVoted(!voted);
         let votes = await FIRESTORE.vote(currentUser.uid, idea.id);
         setVotes(votes)
+    }
+    const handleCopy= async () => {
+        await navigator.clipboard.writeText(`${window.location.href}idea/${idea?.id}`)
+        setStatusAlert("Copied to Clipboard!")
     }
     return (
         <Card className={classes.card}>
@@ -77,7 +82,7 @@ const Idea = ({idea}) => {
                         {idea?.title}
                     </Typography>
                     <Typography className={classes.text}>
-                        {idea?.id}
+                    <IconButton  style={{color:"#696969"}} onClick={handleCopy} disableRipple={true} disableFocusRipple={true} > <Send /> </IconButton>
                     </Typography>
                 </Grid>
                 <Grid container item xs={3} justify="flex-end" alignItems="center" spacing={2}>

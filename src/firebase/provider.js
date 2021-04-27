@@ -1,6 +1,7 @@
 import React,{useContext,useState,useEffect} from 'react';
 import {auth,googleProvider} from './';
 
+import Alert from '../components/Alert';
 export const AuthContext = React.createContext();
 
 export const useAuth = () => {
@@ -11,6 +12,8 @@ export const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState("");
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState("");
+    
+    const [statusAlert, setStatusAlert] = useState(''); 
     
       function logout() {
         return auth.signOut()
@@ -42,9 +45,12 @@ export const AuthProvider = ({children}) => {
                 googleSignin,
                 errors,
                 setErrors,
+                statusAlert,
+                setStatusAlert
             }} 
         >
             {children}
+            <Alert statusAlert={statusAlert} closeStatusAlert={()=>setStatusAlert('')} />
         </AuthContext.Provider>
     )
 }

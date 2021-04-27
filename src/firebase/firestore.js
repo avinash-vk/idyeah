@@ -14,6 +14,15 @@ export const FIRESTORE = {
             return []
         }
     },
+    getIdea: async (id) => {
+        try{
+            return (await db.collection('ideas').doc(id).get()).data();
+        }
+        catch(err){
+            console.log(err);
+            return null
+        }
+    },
     vote: async (uid, id) => {
         let data = (await db.collection('ideas').doc(id).get()).data()
         let value = data?.votes?.[uid]
