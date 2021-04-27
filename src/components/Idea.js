@@ -48,7 +48,7 @@ const Idea = ({idea}) => {
     const classes = useStyles();
     const [collapsed, setCollapsed] = useState(false);
     const { currentUser,setStatusAlert } = useAuth();
-    const [voted,setVoted] = useState(idea?.votes?.[currentUser.uid]);
+    const [voted,setVoted] = useState(idea?.votes?.[currentUser?.uid]);
     const [votes, setVotes] = React.useState(idea?.voteCount);
     const handleVote = async ()=>{
         setVoted(!voted);
