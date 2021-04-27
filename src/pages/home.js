@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from "react";
+import { useAuth } from '../firebase/provider';
+import {
+  Container
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+import Idea from '../components/Idea'
+const useStyles = makeStyles((theme) => ({
+    
+  }));
 
 const Home = () => {
+    const classes = useStyles();
     return (
-        <div>
-            home hello
-        </div>
+        <Container>
+            {[1,2,3,4,5].map(idx => <Idea />)}
+        </Container>
     )
 }
 

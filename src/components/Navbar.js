@@ -3,7 +3,6 @@ import { useAuth } from '../firebase/provider';
 import {
   AppBar,
   List,
-  ListItem,
   Button,
   Toolbar,
   Typography,
@@ -56,11 +55,6 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor:"#FFF",
             textDecoration:'underline'
         }   
-    },
-    avatar: {
-      backgroundColor: "#E5493D",
-      width: 36,
-      height: 36,
     },
     logo:{
         fontFamily: "Fredoka One",
