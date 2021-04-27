@@ -7,7 +7,7 @@ export const FIRESTORE = {
     },
     getIdeas: async () => {
         try{
-            return (await db.collection('ideas').get()).docs.map(doc=>doc.data());
+            return (await db.collection('ideas').orderBy('voteCount', 'desc').get()).docs.map(doc=>doc.data());
         }
         catch(err){
             console.log(err);
