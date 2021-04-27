@@ -86,7 +86,9 @@ const SubmitIdeaModal = ({open,handleClose}) => {
             title,
             description,
             author: currentUser ? currentUser.displayName: "Anonymous",
-            authorId: currentUser ? currentUser.uid : ""
+            authorId: currentUser ? currentUser.uid : "",
+            voteCount:0,
+            votes:[]
         });
         handleClose();
     }

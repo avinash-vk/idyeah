@@ -8,6 +8,7 @@ import {
     ChevronDown,
     Sun
 } from "react-feather";
+import { FIRESTORE} from '../firebase/firestore';
 import { useAuth } from '../firebase/provider'
 const useStyles = makeStyles((theme) => ({
     card:{
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
     text:{
         fontFamily: "Fira Code",
-        fontSize: 18 ,
+        fontSize: 12 ,
         textTransform:'none',
         color:"#696969",
         marginLeft:10
@@ -42,13 +43,16 @@ const useStyles = makeStyles((theme) => ({
         borderLeft:'4px solid #FDB827',
     }
 }));
-const Idea = () => {
+const Idea = ({idea}) => {
     const classes = useStyles();
     const [collapsed, setCollapsed] = useState(false);
-    const [voted,setVoted] = useState(false);
     const { currentUser } = useAuth();
-    const handleVote = ()=>{
+    const [voted,setVoted] = useState(idea?.votes?.[currentUser.uid]);
+    const [votes, setVotes] = React.useState(idea?.voteCount);
+    const handleVote = async ()=>{
         setVoted(!voted);
+        let votes = await FIRESTORE.vote(currentUser.uid, idea.id);
+        setVotes(votes)
     }
     return (
         <Card className={classes.card}>
@@ -70,16 +74,16 @@ const Idea = () => {
                     />
                 )}
                     <Typography className={classes.title}>
-                        Robots
+                        {idea?.title}
                     </Typography>
                     <Typography className={classes.text}>
-                        Robots
+                        {idea?.id}
                     </Typography>
                 </Grid>
                 <Grid container item xs={3} justify="flex-end" alignItems="center" spacing={2}>
                     <Grid item>
                     <Typography className={classes.title}>
-                        10
+                        {votes}
                     </Typography>
                     </Grid>
                     <Grid item>
@@ -90,9 +94,9 @@ const Idea = () => {
             <Collapse in={collapsed}>
                 <div className={classes.body}>
                     <Typography className={classes.text} style={{fontSize:16}}>
-                        <b>Submitted by:</b> Avinash V K<br/><br/>
+                        <b>Submitted by:</b> {idea?.author} <br/><br/>
                         <b>Proposition:</b> <br/>
-                        An electric car that runs on water. Turns out it is the best way to do so. It’s also a great day to party and a much better day to simply have a good day. Ice taken from mars can be directly boiled at 100C to break it down to high energy matter which can then be used as fuel. Have a great day.
+                        {idea?.description}
                     </Typography>
                 </div>
             </Collapse>

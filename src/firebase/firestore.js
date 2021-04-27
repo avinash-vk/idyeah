@@ -1,5 +1,5 @@
 import { db } from './';
-
+import firebase from "firebase/app"
 export const FIRESTORE = {
     addIdea: async (idea) => {
         let {id} = await db.collection('ideas').add(idea);
@@ -15,9 +15,12 @@ export const FIRESTORE = {
         }
     },
     vote: async (uid, id) => {
-        let value = (await db.collection('ideas').doc(id).get()).data()[`likes.${uid}`]
-        return await db.collection('ideas').doc(id).update({
-            [`likes.${uid}`]:value?false:true,
+        let data = (await db.collection('ideas').doc(id).get()).data()
+        let value = data?.votes?.[uid]
+        await db.collection('ideas').doc(id).update({
+            [`votes.${uid}`]:value?false:true,
+            voteCount:value? firebase.firestore.FieldValue.increment(-1): firebase.firestore.FieldValue.increment(1)
         });
+        return value?  data.voteCount-1: data.voteCount+1;
     }
 }
